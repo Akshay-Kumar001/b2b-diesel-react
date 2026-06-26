@@ -11,7 +11,7 @@ function ProductSection() {
           Save on Open-Box Parts
         </h2>
 
-        <button className="border px-4 py-2 text-sm hover:bg-black hover:text-white">
+        <button className="border px-4 py-2 text-sm hover:bg-black hover:text-white transition duration-300">
           VIEW ALL
         </button>
       </div>

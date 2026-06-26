@@ -2,7 +2,7 @@ import logo from "../assets/img/b2b_logo.webp";
 
 function Footer() {
   return (
-    <footer className="bg-gray-100 mt-10">
+    <footer className="bg-gray-100 ">
 
       <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-10">
 

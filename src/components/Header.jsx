@@ -15,42 +15,42 @@ function Header() {
 
           <a
             href="#"
-            className="hover:text-orange-500 transition"
+            className="hover:text-red-600 transition"
           >
             Home
           </a>
 
           <a
             href="#"
-            className="hover:text-orange-500 transition"
+            className="hover:text-red-600 transition"
           >
             Products
           </a>
 
           <a
             href="#"
-            className="hover:text-orange-500 transition"
+            className="hover:text-red-600 transition"
           >
             Services
           </a>
 
           <a
             href="#"
-            className="hover:text-orange-500 transition"
+            className="hover:text-red-600 transition"
           >
             About
           </a>
 
           <a
             href="#"
-            className="hover:text-orange-500 transition"
+            className="hover:text-red-600 transition"
           >
             Contact
           </a>
 
         </nav>
 
-        <button className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg transition">
+        <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg transition">
           Contact Us
         </button>
 
