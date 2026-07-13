@@ -3,6 +3,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductSection from "./components/ProductSection";
+import BrandSection from "./components/BrandSection";
 
 function App() {
   
@@ -13,6 +14,7 @@ function App() {
         <Hero/>
         <ProductSection/>
         <CategorySection/>
+        <BrandSection />
       </main>
 
       <Footer />

@@ -7,7 +7,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-10">
 
         {/* Logo Section */}
-        <div>
+        <div> 
           <img src={logo} alt="Logo" className="h-20 mb-4" />
         </div>
 
@@ -48,7 +48,7 @@ function Footer() {
 
       {/* Bottom */}
       <div className="border-t text-center py-4 text-gray-500 text-sm">
-        Copyright © 2025 - WordPress Theme by Creative Themes
+        Copyright © 2025
       </div>
 
     </footer>
