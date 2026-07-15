@@ -4,6 +4,9 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductSection from "./components/ProductSection";
 import BrandSection from "./components/BrandSection";
+import AboutSection from "./components/AboutSection";
+import FeatureSection from "./components/FeatureSection";
+import TestimonialSection from "./components/TestimonialSection";
 
 function App() {
   
@@ -15,6 +18,9 @@ function App() {
         <ProductSection/>
         <CategorySection/>
         <BrandSection />
+        <AboutSection />
+        <FeatureSection />
+        <TestimonialSection />
       </main>
 
       <Footer />
