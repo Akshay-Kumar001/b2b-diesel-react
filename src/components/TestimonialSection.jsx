@@ -30,13 +30,12 @@ function TestimonialSection() {
                     </p>
 
                 </div>
+                <div className=" px-20">
+                <Swiper className="testimonial-swiper pb-16"
 
-                <Swiper
-
-                    modules={[Navigation, Pagination, Autoplay]}
+                    modules={[ Pagination, Autoplay]}
                     slidesPerView={2}
                     spaceBetween={30}
-                    navigation
                     pagination={{ clickable: true }}
                     autoplay={{
                         delay: 3000,
@@ -58,6 +57,9 @@ function TestimonialSection() {
                     ))}
 
                 </Swiper>
+
+                </div>
+
 
             </div>
 

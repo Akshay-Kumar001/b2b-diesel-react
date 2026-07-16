@@ -7,6 +7,7 @@ import BrandSection from "./components/BrandSection";
 import AboutSection from "./components/AboutSection";
 import FeatureSection from "./components/FeatureSection";
 import TestimonialSection from "./components/TestimonialSection";
+import NewsletterSection from "./components/NewsletterSection";
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
         <AboutSection />
         <FeatureSection />
         <TestimonialSection />
+        <NewsletterSection />
       </main>
 
       <Footer />
