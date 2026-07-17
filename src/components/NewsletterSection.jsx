@@ -3,15 +3,33 @@ import newsletterBg from "../assets/img/news-letter-bg.avif";
 
 function NewsletterSection() {
   const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(email);
 
-    alert("Thanks for subscribing!");
+    if (email.trim() === "") {
+    setMessage("Email is required.");
+    setMessageType("error");
+    return;
+}
 
-    setEmail("");
+    if (!email.includes("@")) {
+      setMessage("Please enter a valid email address.");
+      setMessageType("error");
+      return;
+    }
+      setMessage("Thank you for subscribing!");
+      setMessageType("success");
+      setEmail("");
+
+    setTimeout(() => {
+            setMessage("");
+
+    }, 3000);
   };
 
   return (
@@ -74,7 +92,14 @@ function NewsletterSection() {
             </button>
 
           </form>
-
+          <p
+            className={ `mt-4 ${ messageType === "success"
+                ? "text-green-500"
+                : "text-red-500"
+            }`}
+          >
+            {message}
+          </p>
         </div>
 
       </div>
