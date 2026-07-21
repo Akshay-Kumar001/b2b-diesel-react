@@ -1,32 +1,28 @@
-import CategorySection from "./components/CategorySection";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Hero from "./components/Hero";
-import ProductSection from "./components/ProductSection";
-import BrandSection from "./components/BrandSection";
-import AboutSection from "./components/AboutSection";
-import FeatureSection from "./components/FeatureSection";
-import TestimonialSection from "./components/TestimonialSection";
-import NewsletterSection from "./components/NewsletterSection";
+import Products from "./pages/Products";
+import Services from "./pages/Services";
+import Contact from "./pages/Contact";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
-  
   return (
-    < >
-      < Header />
-      <main>
-        <Hero/>
-        <ProductSection/>
-        <CategorySection/>
-        <BrandSection />
-        <AboutSection />
-        <FeatureSection />
-        <TestimonialSection />
-        <NewsletterSection />
-      </main>
+    <div className="main-app">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
 
+      </Routes>
       <Footer />
-    </>
+    </div>
   );
 }
 

@@ -1,14 +1,18 @@
+import { Link } from "react-router-dom";
+
 function ProductCard({ product }) {
   return (
     <div className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-40 object-cover mb-3"
-      />
-
-      <h3 className="font-semibold">{product.name}</h3>
+      <Link to={`/products/${product.id}`}>
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-40 object-cover mb-3"
+        />
+      </Link>
+      <Link to={`/products/${product.id}`}  >
+        <h3 className="font-semibold transition-all hover:text-red-600 ">{product.name}</h3>
+      </Link>
 
       <p className="text-gray-600">₹{product.price}</p>
 
@@ -19,7 +23,6 @@ function ProductCard({ product }) {
       <button className="mt-3 bg-red-500 text-white px-4 py-2 rounded w-full">
         Contact Seller
       </button>
-
     </div>
   );
 }

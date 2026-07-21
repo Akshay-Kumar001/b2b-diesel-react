@@ -1,61 +1,56 @@
-import logo from "../assets/img/b2b_logo.webp"
+import { Link, NavLink } from "react-router-dom";
+import logo from "../assets/img/b2b_logo.webp";
+
 function Header() {
   return (
     <header className="w-full border-b bg-white">
-
       <div className="max-w-7xl mx-auto flex justify-between items-center px-5 py-4">
-
         {/* Logo */}
         <div className="w-16">
-          <img src={logo} alt="" />
+          <Link to="/">
+            <img src={logo} alt="Logo" />
+          </Link>
         </div>
 
-     
         <nav className="hidden md:flex items-center space-x-8 font-medium text-gray-700">
-
-          <a
-            href="#"
-            className="hover:text-red-600 transition"
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `transition ${isActive ? "text-red-600" : ""}`
+            }
           >
             Home
-          </a>
-
-          <a
-            href="#"
-            className="hover:text-red-600 transition"
+          </NavLink>
+          <NavLink
+            to="/products"
+            className={({ isActive }) =>
+              `transition ${isActive ? "text-red-600" : ""}`
+            }
           >
             Products
-          </a>
-
-          <a
-            href="#"
-            className="hover:text-red-600 transition"
+          </NavLink>
+          <NavLink
+            to="/services"
+            className={({ isActive }) =>
+              `transition ${isActive ? "text-red-600" : ""}`
+            }
           >
             Services
-          </a>
-
-          <a
-            href="#"
-            className="hover:text-red-600 transition"
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `transition ${isActive ? "text-red-600" : ""}`
+            }
           >
             About
-          </a>
-
-          <a
-            href="#"
-            className="hover:text-red-600 transition"
-          >
-            Contact
-          </a>
-
+          </NavLink>
         </nav>
 
-        <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg transition">
+        <Link className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg transition">
           Contact Us
-        </button>
-
+        </Link>
       </div>
-
     </header>
   );
 }
