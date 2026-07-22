@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import products from "../data/products";
+import ProductDescription from "../components/ProductDescription";
+import ProductReviews from "../components/ProductReviews";
+import ProductTabs from "../components/ProductTabs";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -8,7 +11,7 @@ function ProductDetails() {
   const product = products.find((product) => product.id === Number(id));
   console.log("URL id:", id);
   const [activeTab, setActiveTab] = useState("description");
-
+const [reviews, setReviews] = useState(product.reviews);
   return (
     <div className="max-w-7xl mx-auto px-5 py-10">
       <div className="mb-8 flex items-center gap-2 text-sm text-gray-600">
@@ -68,45 +71,10 @@ function ProductDetails() {
           </button>
         </div>
       </div>
-
       {/* Tabs */}
-      <div className="mt-12">
-        <div className="flex gap-2">
-          <button
-            className={`px-4 py-2 rounded-t-lg ${
-              activeTab === "description"
-                ? "bg-red-600 text-white"
-                : "bg-gray-200"
-            }`}
-            onClick={() => setActiveTab("description")}
-          >
-            Description
-          </button>
-
-          <button
-            className={`px-4 py-2 rounded-t-lg ${
-              activeTab === "reviews" ? "bg-red-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setActiveTab("reviews")}
-          >
-            Reviews
-          </button>
-        </div>
-
-        {activeTab === "description" ? (
-          <div className="">
-            <div className=" border-t pt-8">
-              <h2 className="text-2xl font-bold mb-4">Product Description</h2>
-
-              <p className="text-gray-600 leading-7">{product.description}</p>
-            </div>
-          </div>
-        ) : (
-          <div className="mt-6">
-            <p>No reviews yet.</p>
-          </div>
-        )}
-      </div>
+      <ProductTabs activeTab={activeTab} setActiveTab={setActiveTab} reviews={product.reviews} />
+      {activeTab === "description" && <ProductDescription product={product} />}
+      {activeTab === "reviews" && <ProductReviews reviews={product.reviews} />}
     </div>
   );
 }

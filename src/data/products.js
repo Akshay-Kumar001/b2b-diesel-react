@@ -7,8 +7,21 @@ const products = [
     category: "Engine",
     stock: true,
     description:
-      "High-quality Cummins air compressor designed for heavy-duty trucks. Built for durability, reliable performance, and long service life."
- 
+      "High-quality Cummins air compressor designed for heavy-duty trucks. Built for durability, reliable performance, and long service life.",
+    reviews: [
+      {
+        id: 1,
+        name: "Akshay",
+        rating: 5,
+        comment: "Excellent quality.",
+      },
+      {
+        id: 2,
+        name: "Rahul",
+        rating: 4,
+        comment: "Worth the price.",
+      },
+    ],
   },
   {
     id: 2,
@@ -18,7 +31,27 @@ const products = [
     category: "Cooling",
     stock: true,
     description:
-      "Premium Detroit Diesel water pump that provides efficient engine cooling and long-lasting performance under demanding conditions."
+      "Premium Detroit Diesel water pump that provides efficient engine cooling and long-lasting performance under demanding conditions.",
+    reviews: [
+      {
+        id: 1,
+        name: "Akshay",
+        rating: 5,
+        comment: "Excellent quality.",
+      },
+      {
+        id: 2,
+        name: "Rahul",
+        rating: 4,
+        comment: "Worth the price.",
+      },
+      {
+        id: 3,
+        name: "Bhavesh",
+        rating: 4,
+        comment: "Worth the price.",
+      },
+    ],
   },
   {
     id: 3,
@@ -28,8 +61,34 @@ const products = [
     category: "Filter",
     stock: true,
     description:
-      "Durable truck oil filter that helps protect your engine by removing contaminants and ensuring smooth lubrication."
-  }
+      "Durable truck oil filter that helps protect your engine by removing contaminants and ensuring smooth lubrication.",
+    reviews: [
+      {
+        id: 1,
+        name: "Akshay",
+        rating: 5,
+        comment: "Excellent quality.",
+      },
+      {
+        id: 2,
+        name: "Rahul",
+        rating: 4,
+        comment: "Worth the price.",
+      },
+      {
+        id: 3,
+        name: "Bhavesh",
+        rating: 4,
+        comment: "Worth the price.",
+      },
+      {
+        id: 4,
+        name: "Bhavesh",
+        rating: 4,
+        comment: "Worth the price.",
+      },
+    ],
+  },
 ];
 
 export default products;
