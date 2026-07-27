@@ -1,5 +1,5 @@
-import brands from "../data/brand";
-import BrandCard from "./BrandCard";
+import brands from "../../../data/brand";
+import BrandCard from "../../../components/BrandCard";
 
 function BrandSection() {
   return (
@@ -9,7 +9,7 @@ function BrandSection() {
 
         <div className="text-center mb-14">
 
-          <p className="text-orange-500 uppercase tracking-widest text-sm">
+          <p className="text-red-500 uppercase tracking-widest text-sm">
             Trusted Manufacturers
           </p>
 

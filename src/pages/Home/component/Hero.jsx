@@ -1,8 +1,8 @@
-import truck_bg from "../assets/img/banner-img-scaled.webp"
-import car_parts from "../assets/img/car-parts.webp"
-import consulting from "../assets/img/consulting-service.webp"
-import delivery from "../assets/img/delivery-truck.webp"
-import inventory from "../assets/img/inventory.webp"
+import truck_bg from "../../../assets/img/banner-img-scaled.webp"
+import car_parts from "../../../assets/img/car-parts.webp"
+import consulting from "../../../assets/img/consulting-service.webp"
+import delivery from "../../../assets/img/delivery-truck.webp"
+import inventory from "../../../assets/img/inventory.webp"
 function Hero() {
     return (
         <section className="relative w-full h-[600px] ">

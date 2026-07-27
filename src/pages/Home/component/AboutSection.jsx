@@ -1,4 +1,4 @@
-import about from "../data/about";
+import about from "../../../data/about";
 
 function AboutSection() {
   return (
@@ -22,7 +22,7 @@ function AboutSection() {
 
           <div>
 
-            <p className="text-orange-500 font-semibold uppercase tracking-widest">
+            <p className="text-red-500 font-semibold uppercase tracking-widest">
               {about.title}
             </p>
 
@@ -34,7 +34,7 @@ function AboutSection() {
               {about.description}
             </p>
 
-            <button className="mt-8 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg transition">
+            <button className="mt-8 bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg transition">
               Learn More
             </button>
 

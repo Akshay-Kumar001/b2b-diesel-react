@@ -1,5 +1,5 @@
-import features from "../data/features";
-import FeatureCard from "./FeatureCard";
+import features from "../../../data/features";
+import FeatureCard from "../../../components/FeatureCard";
 
 function FeatureSection() {
   return (
@@ -9,7 +9,7 @@ function FeatureSection() {
 
         <div className="text-center mb-14">
 
-          <p className="text-orange-500 uppercase tracking-widest font-semibold">
+          <p className="text-red-500 uppercase tracking-widest font-semibold">
             Why Choose Us
           </p>
 

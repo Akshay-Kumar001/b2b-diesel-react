@@ -22,7 +22,7 @@ function AddReview() {
   return (
     <section className="mt-16 bg-white py-8 ">
 
-      <p className="text-orange-500 uppercase tracking-widest font-semibold">
+      <p className="text-red-500 uppercase tracking-widest font-semibold">
         Share Your Experience
       </p>
 

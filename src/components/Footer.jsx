@@ -27,10 +27,10 @@ function Footer() {
         <div>
           <h3 className="font-semibold text-lg mb-3">Account</h3>
           <ul className="text-gray-600 space-y-2 text-sm">
-            <li className="hover:text-orange-500 cursor-pointer">My Account</li>
-            <li className="hover:text-orange-500 cursor-pointer">My Cart</li>
-            <li className="hover:text-orange-500 cursor-pointer">Sign In</li>
-            <li className="hover:text-orange-500 cursor-pointer">Check Out</li>
+            <li className="hover:text-red-500 cursor-pointer">My Account</li>
+            <li className="hover:text-red-500 cursor-pointer">My Cart</li>
+            <li className="hover:text-red-500 cursor-pointer">Sign In</li>
+            <li className="hover:text-red-500 cursor-pointer">Check Out</li>
           </ul>
         </div>
 

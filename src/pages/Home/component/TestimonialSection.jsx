@@ -6,8 +6,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import testimonials from "../data/testimonials";
-import TestimonialCard from "./TestimonialCard";
+import testimonials from "../../../data/testimonials";
+import TestimonialCard from "../../../components/TestimonialCard";
 
 function TestimonialSection() {
     return (
@@ -17,7 +17,7 @@ function TestimonialSection() {
 
                 <div className="text-center mb-14">
 
-                    <p className="text-orange-500 uppercase tracking-widest font-semibold">
+                    <p className="text-red-500 uppercase tracking-widest font-semibold">
                         Customer Reviews
                     </p>
 
