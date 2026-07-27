@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import products from "../data/products";
-import ProductDescription from "../components/ProductDescription";
-import ProductReviews from "../components/ProductReviews";
-import ProductTabs from "../components/ProductTabs";
+import products from "../../data/products";
+import ProductDescription from "./component/ProductDescription";
+import ProductReviews from "./component/ProductReviews";
+import ProductTabs from "./component/ProductTabs";
 
 function ProductDetails() {
   const { id } = useParams();
