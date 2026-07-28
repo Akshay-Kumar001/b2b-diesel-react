@@ -1,23 +1,30 @@
 import { useState } from "react";
 
-function AddReview() {
+function AddReview({ onAddReview }) {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
 
-    console.log({
-      name,
-      comment,
-      rating,
-    });
+    e.preventDefault();
+  const newReview = {
+  id: Date.now(),
+  name,
+  rating,
+  comment,
+};
+
+    onAddReview(newReview); 
+
+
+console.log(name, comment, rating);
 
     setName("");
     setComment("");
     setRating(0);
   };
+
 
   return (
     <section className="mt-16 bg-white py-8 ">

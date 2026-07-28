@@ -39,7 +39,6 @@ function ProductReviews({ reviews  }) {
       )}
 
 
-      <AddReview  />
     </div>
   );
 }

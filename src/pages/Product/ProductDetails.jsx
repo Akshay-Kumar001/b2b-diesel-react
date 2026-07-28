@@ -4,6 +4,7 @@ import products from "../../data/products";
 import ProductDescription from "./component/ProductDescription";
 import ProductReviews from "./component/ProductReviews";
 import ProductTabs from "./component/ProductTabs";
+import AddReview from "./component/AddReview";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -11,7 +12,12 @@ function ProductDetails() {
   const product = products.find((product) => product.id === Number(id));
   console.log("URL id:", id);
   const [activeTab, setActiveTab] = useState("description");
-const [reviews, setReviews] = useState(product.reviews);
+  const [reviews, setReviews] = useState(product.reviews);
+
+  const handleAddReview = (newReview) => {
+    console.log("New Review:", newReview);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-5 py-10">
       <div className="mb-8 flex items-center gap-2 text-sm text-gray-600">
@@ -72,9 +78,18 @@ const [reviews, setReviews] = useState(product.reviews);
         </div>
       </div>
       {/* Tabs */}
-      <ProductTabs activeTab={activeTab} setActiveTab={setActiveTab} reviews={product.reviews} />
+      <ProductTabs
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        reviews={product.reviews}
+      />
       {activeTab === "description" && <ProductDescription product={product} />}
-      {activeTab === "reviews" && <ProductReviews reviews={product.reviews} />}
+      {activeTab === "reviews" && (
+        <>
+          <ProductReviews reviews={reviews} />
+          <AddReview onAddReview={handleAddReview} />
+        </>
+      )}
     </div>
   );
 }
