@@ -6,43 +6,31 @@ function AddReview({ onAddReview }) {
   const [rating, setRating] = useState(0);
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
-  const newReview = {
-  id: Date.now(),
-  name,
-  rating,
-  comment,
-};
-
-    onAddReview(newReview); 
-
-
-console.log(name, comment, rating);
+    const newReview = {
+      id: Date.now(),
+      name,
+      rating,
+      comment,
+    };
+    onAddReview(newReview);
 
     setName("");
     setComment("");
     setRating(0);
   };
 
-
   return (
     <section className="mt-16 bg-white py-8 ">
-
       <p className="text-red-500 uppercase tracking-widest font-semibold">
         Share Your Experience
       </p>
 
-      <h2 className="text-4xl font-bold mt-3 mb-8">
-        Leave a Review
-      </h2>
+      <h2 className="text-4xl font-bold mt-3 mb-8">Leave a Review</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-
         <div>
-          <label className="block mb-2 font-medium">
-            Name
-          </label>
+          <label className="block mb-2 font-medium">Name</label>
 
           <input
             type="text"
@@ -54,9 +42,7 @@ console.log(name, comment, rating);
         </div>
 
         <div>
-          <label className="block mb-3 font-medium">
-            Rating
-          </label>
+          <label className="block mb-3 font-medium">Rating</label>
 
           <div className="flex gap-2 text-4xl cursor-pointer select-none">
             {[1, 2, 3, 4, 5].map((star) => (
@@ -76,9 +62,7 @@ console.log(name, comment, rating);
         </div>
 
         <div>
-          <label className="block mb-2 font-medium">
-            Comment
-          </label>
+          <label className="block mb-2 font-medium">Comment</label>
 
           <textarea
             rows={5}
@@ -95,7 +79,6 @@ console.log(name, comment, rating);
         >
           Submit Review
         </button>
-
       </form>
     </section>
   );

@@ -15,8 +15,8 @@ function ProductDetails() {
   const [reviews, setReviews] = useState(product.reviews);
 
   const handleAddReview = (newReview) => {
-    console.log("New Review:", newReview);
-  };
+  setReviews([...reviews, newReview]);
+};
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-10">
@@ -81,7 +81,7 @@ function ProductDetails() {
       <ProductTabs
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        reviews={product.reviews}
+        reviews={reviews}
       />
       {activeTab === "description" && <ProductDescription product={product} />}
       {activeTab === "reviews" && (
