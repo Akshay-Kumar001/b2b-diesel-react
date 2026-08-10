@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import products from "../../data/products";
 import ProductDescription from "./component/ProductDescription";
@@ -10,13 +11,14 @@ function ProductDetails() {
   const { id } = useParams();
 
   const product = products.find((product) => product.id === Number(id));
-  console.log("URL id:", id);
   const [activeTab, setActiveTab] = useState("description");
   const [reviews, setReviews] = useState(product.reviews);
-
+  useEffect(() => {
+    document.title = `${product.name} | B2B Diesel`;
+  }, [product.name]);
   const handleAddReview = (newReview) => {
-  setReviews([...reviews, newReview]);
-};
+    setReviews([...reviews, newReview]);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-10">
