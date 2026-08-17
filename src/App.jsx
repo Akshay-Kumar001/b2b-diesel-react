@@ -7,6 +7,7 @@ import Products from "./pages/Product/Products";
 import Services from "./pages/Service/Services";
 import Contact from "./pages/Contact/Contact";
 import ProductDetails from "./pages/Product/ProductDetails";
+import WindowSize from "./components/WindowSize";
 
 function App() {
   return (

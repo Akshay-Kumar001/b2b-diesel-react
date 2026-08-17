@@ -3,14 +3,11 @@ import car_parts from "../../../assets/img/car-parts.webp"
 import consulting from "../../../assets/img/consulting-service.webp"
 import delivery from "../../../assets/img/delivery-truck.webp"
 import inventory from "../../../assets/img/inventory.webp"
-import TitleName from "../../../components/TittleName"
-function Hero() {
 
-    
+function Hero() {
     return (
-       
         <section className="relative w-full h-[600px] ">
- <TitleName />
+
             <img
                 src={truck_bg} alt="truck"
                 className="w-full h-full object-cover"
