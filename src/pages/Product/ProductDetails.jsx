@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import products from "../../data/products";
@@ -6,10 +6,11 @@ import ProductDescription from "./component/ProductDescription";
 import ProductReviews from "./component/ProductReviews";
 import ProductTabs from "./component/ProductTabs";
 import AddReview from "./component/AddReview";
+import CartContext from "../../context/CartContext";
 
 function ProductDetails() {
   const { id } = useParams();
-
+  const { cart, setCart } = useContext(CartContext);
   const product = products.find((product) => product.id === Number(id));
   const [activeTab, setActiveTab] = useState("description");
   const [reviews, setReviews] = useState(product.reviews);
@@ -74,9 +75,12 @@ function ProductDetails() {
             </p>
           </div>
 
-          <button className="mt-8 bg-red-600 hover:bg-red-700 transition text-white px-8 py-3 rounded-lg">
-            Contact Seller
-          </button>
+          <button
+        onClick={() => setCart([...cart, product])}
+        className="mt-3 bg-red-500 text-white px-4 py-2 rounded "
+      >
+        Add to Cart
+      </button>
         </div>
       </div>
       {/* Tabs */}
