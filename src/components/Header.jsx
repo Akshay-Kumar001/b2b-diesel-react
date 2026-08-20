@@ -1,12 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
 import { UserRound, ShoppingCart } from "lucide-react";
 import { useContext, useState } from "react";
-
 import logo from "../assets/img/b2b_logo.webp";
 import CartContext from "../context/CartContext";
 
 function Header() {
-  const { cart } = useContext(CartContext);
+ const { cart } = useContext(CartContext);
+
+const cartCount = cart.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
   return (
     <header className="w-full border-b bg-white">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-5 py-4">
@@ -88,7 +92,7 @@ function Header() {
             <ShoppingCart size={21} strokeWidth={1.8} />
 
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center">
-              {cart.length}
+              {cartCount}
             </span>
           </Link>
 
