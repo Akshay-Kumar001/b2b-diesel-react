@@ -7,7 +7,8 @@ import Products from "./pages/Product/Products";
 import Services from "./pages/Service/Services";
 import Contact from "./pages/Contact/Contact";
 import ProductDetails from "./pages/Product/ProductDetails";
-
+import Cart from "./pages/Cart/Cart";
+import Checkout from "./pages/Checkout/Checkout";
 function App() {
   return (
     <div className="main-app">
@@ -19,6 +20,8 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
 
       </Routes>
       <Footer />
