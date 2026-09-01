@@ -21,29 +21,23 @@ function Products() {
       .toLowerCase()
       .includes(search.toLowerCase());
 
-    const matchesCategory =
-      category === "All" || product.category === category;
+    const matchesCategory = category === "All" || product.category === category;
 
     return matchesSearch && matchesCategory;
   });
 
   // Total pages
-  const totalPages = Math.ceil(
-    filteredProducts.length / productsPerPage
-  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   // Make sure current page is valid
-  const safeCurrentPage = Math.min(
-    currentPage,
-    Math.max(totalPages, 1)
-  );
+  const safeCurrentPage = Math.min(currentPage, Math.max(totalPages, 1));
 
   // Get products for current page
   const startIndex = (safeCurrentPage - 1) * productsPerPage;
 
   const currentProducts = filteredProducts.slice(
     startIndex,
-    startIndex + productsPerPage
+    startIndex + productsPerPage,
   );
 
   // Search change
@@ -59,23 +53,26 @@ function Products() {
   };
 
   return (
+    <>
+    <section
+        className="relative bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/src/assets/img/banner-img-scaled.webp')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/60"></div>
+
+        <div className="relative max-w-7xl mx-auto px-5 py-24 text-center text-white">
+          <h1 className="text-4xl md:text-6xl font-bold">Products</h1>
+
+          <p className="mt-4 text-sm md:text-base text-gray-200">
+            Quality Parts. Reliable Performance.
+          </p>
+        </div>
+      </section>
     <div className="max-w-7xl mx-auto px-5 py-12">
-
       {/* Page Header */}
-      <div className="mb-10">
-        <p className="text-red-500 uppercase tracking-widest text-sm font-semibold">
-          Our Products
-        </p>
-
-        <h1 className="text-4xl md:text-5xl font-bold mt-2">
-          Heavy-Duty Truck Parts
-        </h1>
-
-        <p className="text-gray-600 mt-4 max-w-2xl leading-7">
-          Explore our range of reliable OEM and aftermarket truck and engine
-          parts for heavy-duty applications.
-        </p>
-      </div>
+      
 
       {/* Search */}
       <div className="mb-5">
@@ -114,9 +111,7 @@ function Products() {
       {/* Products */}
       {filteredProducts.length === 0 ? (
         <div className="text-center py-16">
-          <h2 className="text-2xl font-semibold">
-            No products found
-          </h2>
+          <h2 className="text-2xl font-semibold">No products found</h2>
 
           <p className="text-gray-500 mt-2">
             Try a different search term or category.
@@ -126,23 +121,17 @@ function Products() {
         <>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {currentProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 mt-12">
-
               {/* Previous */}
               <button
                 type="button"
-                onClick={() =>
-                  setCurrentPage((prev) => Math.max(prev - 1, 1))
-                }
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={safeCurrentPage === 1}
                 className="px-4 py-2 rounded-lg border border-gray-300 transition disabled:opacity-40 disabled:cursor-not-allowed hover:border-red-500 hover:text-red-500"
               >
@@ -173,21 +162,19 @@ function Products() {
               <button
                 type="button"
                 onClick={() =>
-                  setCurrentPage((prev) =>
-                    Math.min(prev + 1, totalPages)
-                  )
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
                 disabled={safeCurrentPage === totalPages}
                 className="px-4 py-2 rounded-lg border border-gray-300 transition disabled:opacity-40 disabled:cursor-not-allowed hover:border-red-500 hover:text-red-500"
               >
                 Next
               </button>
-
             </div>
           )}
         </>
       )}
     </div>
+    </>
   );
 }
 

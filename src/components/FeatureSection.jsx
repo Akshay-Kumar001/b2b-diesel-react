@@ -1,5 +1,5 @@
-import features from "../../../data/features";
-import FeatureCard from "../../../components/FeatureCard";
+import features from "../data/features";
+import FeatureCard from "./FeatureCard";
 
 function FeatureSection() {
   return (

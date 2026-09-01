@@ -1,4 +1,4 @@
-import about from "../../../data/about";
+import about from "../data/about";
 
 function AboutSection() {
   return (
