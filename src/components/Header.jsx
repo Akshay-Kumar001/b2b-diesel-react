@@ -3,18 +3,17 @@ import { UserRound, ShoppingCart } from "lucide-react";
 import { useContext, useState } from "react";
 import logo from "../assets/img/b2b_logo.webp";
 import CartContext from "../context/CartContext";
+import AuthModal from "./AuthModal";
 
 function Header() {
- const { cart } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
 
-const cartCount = cart.reduce(
-  (total, item) => total + item.quantity,
-  0
-);
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   return (
     <header className="w-full border-b bg-white">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-5 py-4">
-
         {/* Logo */}
         <div className="w-16">
           <Link to="/">
@@ -24,7 +23,6 @@ const cartCount = cart.reduce(
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-8 font-medium text-gray-700">
-
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -69,20 +67,19 @@ const cartCount = cart.reduce(
           >
             Contact
           </NavLink>
-
         </nav>
 
         {/* Right Side */}
         <div className="flex items-center gap-5">
-
           {/* Login */}
-          <Link
-            to="/login"
-            className="flex items-center gap-2 text-gray-700 hover:text-red-600 transition"
+          <button
+            onClick={() => setIsAuthOpen(true)}
+            className="flex items-center gap-2"
           >
             <UserRound size={20} strokeWidth={1.8} />
+
             <span className="hidden sm:inline">Login</span>
-          </Link>
+          </button>
 
           {/* Cart */}
           <Link
@@ -95,10 +92,9 @@ const cartCount = cart.reduce(
               {cartCount}
             </span>
           </Link>
-
         </div>
-
       </div>
+      {isAuthOpen && <AuthModal onClose={() => setIsAuthOpen(false)} />}
     </header>
   );
 }
