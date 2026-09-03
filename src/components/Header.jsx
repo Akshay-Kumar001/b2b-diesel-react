@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import logo from "../assets/img/b2b_logo.webp";
 import CartContext from "../context/CartContext";
 import AuthModal from "./AuthModal";
+import AuthContext from "../context/AuthContext";
 
 function Header() {
   const { cart } = useContext(CartContext);
@@ -11,6 +12,7 @@ function Header() {
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const { user, logout } = useContext(AuthContext);
   return (
     <header className="w-full border-b bg-white">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-5 py-4">
@@ -72,14 +74,32 @@ function Header() {
         {/* Right Side */}
         <div className="flex items-center gap-5">
           {/* Login */}
-          <button
-            onClick={() => setIsAuthOpen(true)}
-            className="flex items-center gap-2"
-          >
-            <UserRound size={20} strokeWidth={1.8} />
+          {user ? (
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <UserRound size={20} strokeWidth={1.8} />
 
-            <span className="hidden sm:inline">Login</span>
-          </button>
+                <span className="text-sm font-medium">
+                  Hi, {user.firstName}
+                </span>
+              </div>
+
+              <button
+                onClick={logout}
+                className="text-sm text-red-500 hover:text-red-600 font-medium"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsAuthOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <UserRound size={20} strokeWidth={1.8} />
+              Login
+            </button>
+          )}
 
           {/* Cart */}
           <Link
