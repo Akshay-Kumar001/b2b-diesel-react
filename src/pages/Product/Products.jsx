@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import products from "../../data/products";
 import ProductCard from "../../components/ProductCard";
 
 function Products() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const categoryFromURL = searchParams.get("category");
+
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState(categoryFromURL || "All");
   const [currentPage, setCurrentPage] = useState(1);
 
   const productsPerPage = 8;
@@ -46,11 +51,16 @@ function Products() {
     setCurrentPage(1);
   };
 
-  // Category change
-  const handleCategoryChange = (item) => {
-    setCategory(item);
-    setCurrentPage(1);
-  };
+ const handleCategoryChange = (item) => {
+  setCategory(item);
+  setCurrentPage(1);
+
+  if (item === "All") {
+    setSearchParams({});
+  } else {
+    setSearchParams({ category: item });
+  }
+};
 
   return (
     <>

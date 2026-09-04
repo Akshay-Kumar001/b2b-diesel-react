@@ -128,9 +128,17 @@ function AuthModal({ onClose }) {
     }
 
     setSignupErrors({});
-    localStorage.setItem("registeredUser", JSON.stringify(signupData));
-    console.log("Signup data:", signupData);
-    onClose();
+
+localStorage.setItem(
+  "registeredUser",
+  JSON.stringify(signupData)
+);
+
+login(signupData);
+
+console.log("Signup successful:", signupData);
+
+onClose();
   };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-5">

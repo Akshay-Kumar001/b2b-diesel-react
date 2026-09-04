@@ -18,8 +18,9 @@ const login = (userData) => {
 };
 
   const logout = () => {
-    setUser(null);
-  };
+  setUser(null);
+  localStorage.removeItem("loggedInUser");
+};
 
   return (
     <AuthContext.Provider
