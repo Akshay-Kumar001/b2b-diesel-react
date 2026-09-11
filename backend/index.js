@@ -6,6 +6,10 @@ const PORT = 5000;
 
 app.use(express.json());
 
+const connectDB = require("./config/db");
+
+connectDB();
+
 const productRoutes = require("./routes/productRoutes");
 
 app.use("/api/products", productRoutes);
