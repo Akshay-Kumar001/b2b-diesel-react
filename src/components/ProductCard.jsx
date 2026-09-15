@@ -6,14 +6,14 @@ function ProductCard({ product }) {
 
   return (
     <div className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-      <Link to={`/products/${product.id}`}>
+      <Link to={`/products/${product._id}`}>
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-40 object-cover mb-3 rounded"
         />
       </Link>
-      <Link to={`/products/${product.id}`}>
+      <Link to={`/products/${product._id}`}>
         <h3 className="font-semibold transition-all hover:text-red-600 ">
           {product.name}
         </h3>

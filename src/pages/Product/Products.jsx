@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
 import { useSearchParams } from "react-router-dom";
-import products from "../../data/products";
+import ProductContext from "../../context/ProductContext";
 import ProductCard from "../../components/ProductCard";
 
 function Products() {
-  const [searchParams, setSearchParams] = useSearchParams();
 
+const { products, loading, error } = useContext(ProductContext);
+
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const categoryFromURL = searchParams.get("category");
 
   const [search, setSearch] = useState("");
@@ -61,7 +65,21 @@ function Products() {
     setSearchParams({ category: item });
   }
 };
+if (loading) {
+  return (
+    <div className="py-20 text-center">
+      Loading products...
+    </div>
+  );
+}
 
+if (error) {
+  return (
+    <div className="py-20 text-center text-red-500">
+      {error}
+    </div>
+  );
+}
   return (
     <>
     <section
@@ -131,7 +149,7 @@ function Products() {
         <>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {currentProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
 

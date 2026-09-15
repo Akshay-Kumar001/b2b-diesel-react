@@ -1,7 +1,5 @@
-import { useContext, useState } from "react";
-import { useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import products from "../../data/products";
 import ProductDescription from "./component/ProductDescription";
 import ProductReviews from "./component/ProductReviews";
 import ProductTabs from "./component/ProductTabs";
@@ -11,16 +9,55 @@ import CartContext from "../../context/CartContext";
 function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useContext(CartContext);
-  const product = products.find((product) => product.id === Number(id));
+
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [reviews, setReviews] = useState(product.reviews);
+  const [reviews, setReviews] = useState([]);
+
   useEffect(() => {
-    document.title = `${product.name} | B2B Diesel`;
-  }, [product.name]);
+    fetch(`http://localhost:5000/api/products/${id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Product not found");
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        setProduct(data);
+        setReviews(data.reviews || []);
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (product) {
+      document.title = `${product.name} | B2B Diesel`;
+    }
+  }, [product]);
+
   const handleAddReview = (newReview) => {
     setReviews([...reviews, newReview]);
   };
 
+  if (loading) {
+    return <div className="p-10 text-center">Loading product...</div>;
+  }
+
+  if (error) {
+    return <div className="p-10 text-center text-red-500">{error}</div>;
+  }
+
+  if (!product) {
+    return <div className="p-10 text-center">Product not found</div>;
+  }
   return (
     <div className="max-w-7xl mx-auto px-5 py-10">
       <div className="mb-8 flex items-center gap-2 text-sm text-gray-600">
