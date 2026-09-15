@@ -5,6 +5,19 @@ import ProductContext from "../../context/ProductContext";
 import ProductCard from "../../components/ProductCard";
 
 function Products() {
+ useEffect(() => {
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YWE5MTk2YWJmOGEyYTU4YTMyOWE3YzYiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3ODk0NzUzNzUsImV4cCI6MTc4OTU2MTc3NX0.5_uo8M76bxxyopSzDpCxD2xTAlo08DSawcQ3IDv3IFw";
+
+  fetch("http://localhost:5000/api/users/profile", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    });
+}, []);
 
 const { products, loading, error } = useContext(ProductContext);
 

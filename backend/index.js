@@ -12,8 +12,10 @@ const connectDB = require("./config/db");
 connectDB();
 
 const productRoutes = require("./routes/productRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("B2B Diesel Backend is running");
