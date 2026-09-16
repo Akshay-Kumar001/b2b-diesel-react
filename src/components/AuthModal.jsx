@@ -38,50 +38,64 @@ function AuthModal({ onClose }) {
     }));
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+  e.preventDefault();
 
-    const newErrors = {};
+  const newErrors = {};
 
-    if (!loginData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email)) {
-      newErrors.email = "Enter a valid email";
-    }
+  if (!loginData.email.trim()) {
+    newErrors.email = "Email is required";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email)) {
+    newErrors.email = "Enter a valid email";
+  }
 
-    if (!loginData.password.trim()) {
-      newErrors.password = "Password is required";
-    }
+  if (!loginData.password.trim()) {
+    newErrors.password = "Password is required";
+  }
 
-    if (Object.keys(newErrors).length > 0) {
-      setLoginErrors(newErrors);
-      return;
-    }
-    const savedUser = JSON.parse(localStorage.getItem("registeredUser"));
+  if (Object.keys(newErrors).length > 0) {
+    setLoginErrors(newErrors);
+    return;
+  }
 
-    if (!savedUser) {
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/users/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginData.email,
+          password: loginData.password,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
       setLoginErrors({
-        email: "No account found. Please sign up first.",
+        email: data.message || "Invalid email or password",
       });
       return;
     }
 
-    if (
-      savedUser.email !== loginData.email ||
-      savedUser.password !== loginData.password
-    ) {
-      setLoginErrors({
-        email: "Invalid email or password",
-      });
-      return;
-    }
-    login(savedUser);
-    console.log("Login successful:", savedUser);
-    onClose();
+    login(data.user, data.token);
+
+    console.log("Login successful:", data);
+
     setLoginErrors({});
+    onClose();
+  } catch (error) {
+    console.error("Login error:", error);
 
-    console.log("Login data:", loginData);
-  };
+    setLoginErrors({
+      email: "Unable to connect to server",
+    });
+  }
+};
   const handleSignup = (e) => {
     e.preventDefault();
 

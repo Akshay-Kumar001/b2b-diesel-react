@@ -26,7 +26,7 @@ function CategorySection() {
               <Link
                 key={index}
                 to={`/products?category=${item}`}
-                className="p-4 border text-sm font-medium cursor-pointer transition transition duration-300 bg-white text-black hover:bg-red-500 hover:text-white"
+                className="p-4 border text-sm font-medium cursor-pointer transition  duration-300 bg-white text-black hover:bg-red-500 hover:text-white"
                 
               >
                 {item}

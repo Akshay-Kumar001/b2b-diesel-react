@@ -75,7 +75,7 @@ function Cart() {
 
           {cart.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition"
             >
               <div className="flex flex-col sm:flex-row gap-5">
@@ -104,7 +104,7 @@ function Cart() {
                     </div>
 
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item._id)}
                       className="text-gray-400 hover:text-red-500 transition"
                       aria-label={`Remove ${item.name}`}
                     >
@@ -122,7 +122,7 @@ function Cart() {
                     <div className="flex items-center border rounded-lg overflow-hidden">
 
                       <button
-                        onClick={() => decreaseQuantity(item.id)}
+                        onClick={() => decreaseQuantity(item._id)}
                         className="px-3 py-2 hover:bg-gray-100 transition"
                         aria-label="Decrease quantity"
                       >
@@ -134,7 +134,7 @@ function Cart() {
                       </span>
 
                       <button
-                        onClick={() => increaseQuantity(item.id)}
+                        onClick={() => increaseQuantity(item._id)}
                         className="px-3 py-2 hover:bg-gray-100 transition"
                         aria-label="Increase quantity"
                       >

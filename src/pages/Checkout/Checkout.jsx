@@ -3,7 +3,7 @@ import CartContext from "../../context/CartContext";
 import { Link } from "react-router-dom";
 
 function Checkout() {
-  const { cart , setCart  } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
 
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -23,7 +23,7 @@ function Checkout() {
   });
 
   const [errors, setErrors] = useState({});
-const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -33,7 +33,7 @@ const [orderPlaced, setOrderPlaced] = useState(false);
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
@@ -72,33 +72,62 @@ const [orderPlaced, setOrderPlaced] = useState(false);
 
     setErrors({});
 
-    const order = {
-      customer: formData,
-      items: cart,
-      total: totalPrice,
-    };
+    try {
+      const orderItems = cart.map((item) => ({
+        product: item._id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      }));
 
-    console.log("Order:", order);
-    setCart([]);
-    setOrderPlaced(true);
-    
+      const response = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
 
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+
+        body: JSON.stringify({
+          items: orderItems,
+          shippingAddress: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            phone: formData.phone,
+            address: formData.address,
+            city: formData.city,
+            state: formData.state,
+            pincode: formData.postalCode,
+          },
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to place order");
+      }
+
+      console.log("Order created:", data);
+
+      setCart([]);
+      setOrderPlaced(true);
+    } catch (error) {
+      console.error("Order error:", error);
+    }
   };
-if (orderPlaced) {
-  return (
-    <div className="max-w-7xl mx-auto px-5 py-16 text-center">
-      <div className="bg-white border rounded-xl p-10">
-        <h1 className="text-3xl font-bold">
-          Order Placed Successfully!
-        </h1>
+  if (orderPlaced) {
+    return (
+      <div className="max-w-7xl mx-auto px-5 py-16 text-center">
+        <div className="bg-white border rounded-xl p-10">
+          <h1 className="text-3xl font-bold">Order Placed Successfully!</h1>
 
-        <p className="text-gray-500 mt-3">
-          Thank you for your order. We will contact you shortly.
-        </p>
+          <p className="text-gray-500 mt-3">
+            Thank you for your order. We will contact you shortly.
+          </p>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
   if (cart.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-5 py-16 text-center">
@@ -291,7 +320,7 @@ if (orderPlaced) {
 
               <div className="mt-6 space-y-5">
                 {cart.map((item) => (
-                  <div key={item.id} className="flex justify-between gap-4">
+                  <div key={item._id} className="flex justify-between gap-4">
                     <div>
                       <p className="font-medium">{item.name}</p>
 
