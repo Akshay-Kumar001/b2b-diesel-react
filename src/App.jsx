@@ -9,6 +9,7 @@ import Contact from "./pages/Contact/Contact";
 import ProductDetails from "./pages/Product/ProductDetails";
 import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 function App() {
   return (
     <div className="main-app">
@@ -22,6 +23,8 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
 
       </Routes>
       <Footer />

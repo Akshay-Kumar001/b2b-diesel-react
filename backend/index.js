@@ -14,15 +14,17 @@ connectDB();
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
   res.send("B2B Diesel Backend is running");
 });
 
-pp.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });
