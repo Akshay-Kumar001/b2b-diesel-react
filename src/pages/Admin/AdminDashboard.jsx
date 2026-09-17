@@ -12,7 +12,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/dashboard", {
+        const response = await fetch(`${API_URL}/api/dashboard`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
