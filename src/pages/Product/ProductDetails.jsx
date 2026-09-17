@@ -5,6 +5,7 @@ import ProductReviews from "./component/ProductReviews";
 import ProductTabs from "./component/ProductTabs";
 import AddReview from "./component/AddReview";
 import CartContext from "../../context/CartContext";
+import API_URL from "../../config/api";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -17,7 +18,7 @@ function ProductDetails() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`${API_URL}/api/products/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Product not found");

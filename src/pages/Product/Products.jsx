@@ -3,21 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductContext from "../../context/ProductContext";
 import ProductCard from "../../components/ProductCard";
+import API_URL from "../../config/api";
 
 function Products() {
- useEffect(() => {
- const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YWE5MTk2YWJmOGEyYTU4YTMyOWE3YzYiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3ODk1NTI1NDUsImV4cCI6MTc4OTYzODk0NX0.JKu-hPKtDM8nEoF1DHFTWUrXW9wOKEB6-CUGIj1Keh4";
-
-fetch("http://localhost:5000/api/orders/my-orders", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data[0]);
-  });
-}, []);
+ 
 
 const { products, loading, error } = useContext(ProductContext);
 

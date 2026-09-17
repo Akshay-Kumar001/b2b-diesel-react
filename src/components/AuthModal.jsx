@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
+import API_URL from "../config/api";
 
 function AuthModal({ onClose }) {
   const [mode, setMode] = useState("login");
@@ -60,7 +61,7 @@ function AuthModal({ onClose }) {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/users/login",
+      `${API_URL}/api/users/login`,
       {
         method: "POST",
         headers: {

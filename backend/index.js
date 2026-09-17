@@ -23,6 +23,6 @@ app.get("/", (req, res) => {
   res.send("B2B Diesel Backend is running");
 });
 
-app.listen(PORT, () => {
+pp.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

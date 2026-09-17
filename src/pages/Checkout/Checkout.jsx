@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import CartContext from "../../context/CartContext";
 import { Link } from "react-router-dom";
+import API_URL from "../../config/api";
 
 function Checkout() {
   const { cart, setCart } = useContext(CartContext);
@@ -80,7 +81,7 @@ function Checkout() {
         quantity: item.quantity,
       }));
 
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch(`${API_URL}/api/orders`, {
         method: "POST",
 
         headers: {
