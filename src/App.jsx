@@ -10,6 +10,7 @@ import ProductDetails from "./pages/Product/ProductDetails";
 import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminProducts from "./pages/Admin/Products/AdminProducts";
 function App() {
   return (
     <div className="main-app">
@@ -24,8 +25,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin" element={<AdminDashboard />} />
-
-
+        <Route path="/admin/products" element={<AdminProducts />} />
       </Routes>
       <Footer />
     </div>
