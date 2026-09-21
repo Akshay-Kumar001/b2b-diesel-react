@@ -2,10 +2,11 @@ import { useState, useContext } from "react";
 import CartContext from "../../context/CartContext";
 import { Link } from "react-router-dom";
 import API_URL from "../../config/api";
-
+import AuthContext from "../../context/AuthContext";
+import AuthModal from "../../components/AuthModal";
 function Checkout() {
   const { cart, setCart } = useContext(CartContext);
-
+  const { user } = useContext(AuthContext);
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
@@ -25,6 +26,8 @@ function Checkout() {
 
   const [errors, setErrors] = useState({});
   const [orderPlaced, setOrderPlaced] = useState(false);
+
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -41,7 +44,10 @@ function Checkout() {
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^[6-9]\d{9}$/;
-
+    if (!user) {
+      setIsAuthOpen(true);
+      return;
+    }
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
     }
@@ -108,7 +114,6 @@ function Checkout() {
         throw new Error(data.message || "Failed to place order");
       }
 
-    
       setCart([]);
       setOrderPlaced(true);
     } catch (error) {
