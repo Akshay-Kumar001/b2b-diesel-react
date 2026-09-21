@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import about from "../data/about";
 
 function AboutSection() {
@@ -34,9 +35,8 @@ function AboutSection() {
               {about.description}
             </p>
 
-            <button className="mt-8 bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg transition">
-              Learn More
-            </button>
+          
+            <Link className="inline-block mt-8 bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg transition " to="/about">Learn More</Link>
 
           </div>
 
