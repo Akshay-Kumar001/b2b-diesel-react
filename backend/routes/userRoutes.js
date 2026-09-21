@@ -8,16 +8,19 @@ const {
   loginUser,
   forgotPassword,
   resetPassword,
+  getAllUsers,
+  updateUserRole,
 } = require("../controllers/userController");
 const admin = require("../middleware/adminMiddleware");
 
 
 
 router.post("/register", registerUser);
-
 router.post("/login", loginUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
+router.get("/", protect, admin, getAllUsers);
+router.patch("/:id", protect, admin, updateUserRole);
 router.get("/admin-test", protect, admin, (req, res) => {
   res.json({
     message: "Admin route accessed successfully",

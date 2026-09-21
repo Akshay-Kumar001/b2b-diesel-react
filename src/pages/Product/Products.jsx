@@ -6,7 +6,6 @@ import ProductCard from "../../components/ProductCard";
 import API_URL from "../../config/api";
 
 function Products() {
- 
 
 const { products, loading, error } = useContext(ProductContext);
 

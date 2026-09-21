@@ -131,10 +131,51 @@ const resetPassword = async (req, res) => {
     });
   }
 };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
 
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch users",
+    });
+  }
+};
+const updateUserRole = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { role },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      message: "User role updated successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to update user role",
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
   forgotPassword,
   resetPassword,
+  getAllUsers,
+  updateUserRole,
 };
