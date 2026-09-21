@@ -50,8 +50,7 @@ function AdminUsers() {
         throw new Error(data.message || "Failed to update user role");
       }
 
-      console.log("User role updated:", data);
-
+   
       // Fetch fresh users
       const usersResponse = await fetch(`${API_URL}/api/users`, {
         headers: {

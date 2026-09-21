@@ -108,8 +108,7 @@ function Checkout() {
         throw new Error(data.message || "Failed to place order");
       }
 
-      console.log("Order created:", data);
-
+    
       setCart([]);
       setOrderPlaced(true);
     } catch (error) {

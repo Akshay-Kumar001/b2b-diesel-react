@@ -2,7 +2,6 @@ const Order = require("../models/Order");
 
 const createOrder = async (req, res) => {
   try {
-    console.log("CREATE ORDER API HIT");
     const { items, shippingAddress } = req.body;
 
     const order = await Order.create({

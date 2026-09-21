@@ -9,7 +9,6 @@ function NewsletterSection() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(email);
 
     if (email.trim() === "") {
     setMessage("Email is required.");

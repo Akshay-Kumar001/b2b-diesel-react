@@ -82,8 +82,7 @@ function AuthModal({ onClose }) {
 
       login(data.user, data.token);
 
-      console.log("Login successful:", data);
-
+   
       setLoginErrors({});
       onClose();
     } catch (error) {
@@ -162,8 +161,6 @@ function AuthModal({ onClose }) {
         });
         return;
       }
-
-      console.log("Signup successful:", data);
 
       onClose();
     } catch (error) {
