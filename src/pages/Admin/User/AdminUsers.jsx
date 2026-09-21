@@ -32,10 +32,8 @@ function AdminUsers() {
     fetchUsers();
   }, []);
   const handleRoleChange = async (userId, newRole) => {
-  try {
-    const response = await fetch(
-      `${API_URL}/api/users/${userId}`,
-      {
+    try {
+      const response = await fetch(`${API_URL}/api/users/${userId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -44,36 +42,50 @@ function AdminUsers() {
         body: JSON.stringify({
           role: newRole,
         }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update user role");
       }
-    );
 
-    const data = await response.json();
+      console.log("User role updated:", data);
 
-    if (!response.ok) {
-      throw new Error(
-        data.message || "Failed to update user role"
-      );
-    }
-
-    console.log("User role updated:", data);
-
-    // Fetch fresh users
-    const usersResponse = await fetch(
-      `${API_URL}/api/users`,
-      {
+      // Fetch fresh users
+      const usersResponse = await fetch(`${API_URL}/api/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+      });
+
+      const updatedUsers = await usersResponse.json();
+
+      setUsers(updatedUsers);
+    } catch (error) {
+      console.error("Update role error:", error);
+    }
+  };
+  const handleDeleteUser = async (userId) => {
+    try {
+      const response = await fetch(`${API_URL}/api/users/${userId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete user");
       }
-    );
 
-    const updatedUsers = await usersResponse.json();
-
-    setUsers(updatedUsers);
-  } catch (error) {
-    console.error("Update role error:", error);
-  }
-};
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
+    } catch (error) {
+      console.error("Delete user error:", error);
+    }
+  };
 
   return (
     <div>
@@ -93,6 +105,7 @@ function AdminUsers() {
                 <th className="text-left p-4">Name</th>
                 <th className="text-left p-4">Email</th>
                 <th className="text-left p-4">Role</th>
+                <th className="text-left p-4">Actions</th>
               </tr>
             </thead>
 
@@ -114,6 +127,14 @@ function AdminUsers() {
                       <option value="customer">Customer</option>
                       <option value="admin">Admin</option>
                     </select>
+                  </td>
+                  <td className="p-4">
+                    <button
+                      onClick={() => handleDeleteUser(user._id)}
+                      className="text-red-500 hover:text-red-700 font-medium"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

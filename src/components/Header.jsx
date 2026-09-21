@@ -80,7 +80,7 @@ function Header() {
                 <UserRound size={20} strokeWidth={1.8} />
 
                 <span className="text-sm font-medium">
-                  Hi, {user.firstName}
+                  Hi, {user.name}
                 </span>
               </div>
 

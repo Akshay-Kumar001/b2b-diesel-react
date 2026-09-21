@@ -43,6 +43,7 @@ function Sidebar() {
             <NavLink
               key={item.path}
               to={item.path}
+               end
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-lg transition ${
                   isActive
@@ -59,10 +60,6 @@ function Sidebar() {
         })}
       </nav>
 
-      <button className="mt-10 flex items-center gap-3 text-gray-300 hover:text-red-400 transition">
-        <LogOut size={20} />
-        <span>Logout</span>
-      </button>
     </aside>
   );
 }

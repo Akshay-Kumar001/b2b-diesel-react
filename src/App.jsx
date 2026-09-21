@@ -13,6 +13,8 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminProducts from "./pages/Admin/Products/AdminProducts";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminUsers from "./pages/Admin/User/AdminUsers";
+import AdminOrders from "./pages/Admin/Orders/AdminOrders";
+import AdminRoute from "./pages/Admin/AdminRoute";
 function App() {
   return (
     <div className="main-app">
@@ -26,10 +28,13 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="users" element={<AdminUsers />} />
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="orders" element={<AdminOrders />} />
+          </Route>
         </Route>
       </Routes>
       <Footer />

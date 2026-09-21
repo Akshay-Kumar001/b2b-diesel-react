@@ -10,6 +10,7 @@ const {
   resetPassword,
   getAllUsers,
   updateUserRole,
+  deleteUser,
 } = require("../controllers/userController");
 const admin = require("../middleware/adminMiddleware");
 
@@ -21,11 +22,12 @@ router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
 router.get("/", protect, admin, getAllUsers);
 router.patch("/:id", protect, admin, updateUserRole);
+router.delete("/:id", protect, admin, deleteUser);
 router.get("/admin-test", protect, admin, (req, res) => {
   res.json({
     message: "Admin route accessed successfully",
     user: req.user,
-  });
+  }); 
 
 });
 

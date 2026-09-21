@@ -88,7 +88,7 @@ const forgotPassword = async (req, res) => {
     res.json({
       message: "Password reset token generated",
       resetToken,
-      resetLink: `http://localhost:5173/reset-password/${resetToken}`,
+      resetLink: `https://b2b-diesel-react-idpb.vercel.app/reset-password/${resetToken}`,
     });
   } catch (error) {
     res.status(500).json({
@@ -171,6 +171,26 @@ const updateUserRole = async (req, res) => {
     });
   }
 };
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to delete user",
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -178,4 +198,5 @@ module.exports = {
   resetPassword,
   getAllUsers,
   updateUserRole,
+  deleteUser,
 };

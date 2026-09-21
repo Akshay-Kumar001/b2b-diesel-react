@@ -40,29 +40,27 @@ function AuthModal({ onClose }) {
   };
 
   const handleLogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const newErrors = {};
+    const newErrors = {};
 
-  if (!loginData.email.trim()) {
-    newErrors.email = "Email is required";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email)) {
-    newErrors.email = "Enter a valid email";
-  }
+    if (!loginData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email)) {
+      newErrors.email = "Enter a valid email";
+    }
 
-  if (!loginData.password.trim()) {
-    newErrors.password = "Password is required";
-  }
+    if (!loginData.password.trim()) {
+      newErrors.password = "Password is required";
+    }
 
-  if (Object.keys(newErrors).length > 0) {
-    setLoginErrors(newErrors);
-    return;
-  }
+    if (Object.keys(newErrors).length > 0) {
+      setLoginErrors(newErrors);
+      return;
+    }
 
-  try {
-    const response = await fetch(
-      `${API_URL}/api/users/login`,
-      {
+    try {
+      const response = await fetch(`${API_URL}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,33 +69,32 @@ function AuthModal({ onClose }) {
           email: loginData.email,
           password: loginData.password,
         }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setLoginErrors({
-        email: data.message || "Invalid email or password",
       });
-      return;
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setLoginErrors({
+          email: data.message || "Invalid email or password",
+        });
+        return;
+      }
+
+      login(data.user, data.token);
+
+      console.log("Login successful:", data);
+
+      setLoginErrors({});
+      onClose();
+    } catch (error) {
+      console.error("Login error:", error);
+
+      setLoginErrors({
+        email: "Unable to connect to server",
+      });
     }
-
-    login(data.user, data.token);
-
-    console.log("Login successful:", data);
-
-    setLoginErrors({});
-    onClose();
-  } catch (error) {
-    console.error("Login error:", error);
-
-    setLoginErrors({
-      email: "Unable to connect to server",
-    });
-  }
-};
-  const handleSignup = (e) => {
+  };
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
@@ -144,16 +141,38 @@ function AuthModal({ onClose }) {
 
     setSignupErrors({});
 
-localStorage.setItem(
-  "registeredUser",
-  JSON.stringify(signupData)
-);
+    try {
+      const response = await fetch(`${API_URL}/api/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `${signupData.firstName} ${signupData.lastName}`,
+          email: signupData.email,
+          password: signupData.password,
+        }),
+      });
 
-login(signupData);
+      const data = await response.json();
 
-console.log("Signup successful:", signupData);
+      if (!response.ok) {
+        setSignupErrors({
+          email: data.message || "Signup failed",
+        });
+        return;
+      }
 
-onClose();
+      console.log("Signup successful:", data);
+
+      onClose();
+    } catch (error) {
+      console.error("Signup error:", error);
+
+      setSignupErrors({
+        email: "Unable to connect to server",
+      });
+    }
   };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-5">
