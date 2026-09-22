@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductContext from "../../context/ProductContext";
 import ProductCard from "../../components/ProductCard";
-import API_URL from "../../config/api";
+import truck_bg from "../../assets/img/banner-img-scaled.webp";
 
 function Products() {
 
@@ -86,7 +86,7 @@ if (error) {
     <section
         className="relative bg-cover bg-center"
         style={{
-          backgroundImage: "url('/src/assets/img/banner-img-scaled.webp')",
+          backgroundImage: `url(${truck_bg})`,
         }}
       >
         <div className="absolute inset-0 bg-black/60"></div>

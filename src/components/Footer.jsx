@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/img/b2b_logo.webp";
 
 function Footer() {
@@ -25,12 +26,11 @@ function Footer() {
 
         {/* Account */}
         <div>
-          <h3 className="font-semibold text-lg mb-3">Account</h3>
+          <h3 className="font-semibold text-lg mb-3">Shop</h3>
           <ul className="text-gray-600 space-y-2 text-sm">
-            <li className="hover:text-red-500 cursor-pointer">My Account</li>
-            <li className="hover:text-red-500 cursor-pointer">My Cart</li>
-            <li className="hover:text-red-500 cursor-pointer">Sign In</li>
-            <li className="hover:text-red-500 cursor-pointer">Check Out</li>
+            <li className="hover:text-red-500 cursor-pointer"><Link to="/cart">My Cart</Link></li>
+            <li className="hover:text-red-500 cursor-pointer"><Link to="/checkout"> Check Out </Link></li>
+            <li className="hover:text-red-500 cursor-pointer"><Link to="/products">Shop</Link></li>
           </ul>
         </div>
 

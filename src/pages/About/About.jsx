@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 
 import NewsletterSection from "../../components/NewsletterSection";
 
+import truck_bg from "../../assets/img/banner-img-scaled.webp";
+import truck_parts from "../../assets/img/truck-parts.jpg";
+
 function About() {
   const promises = [
     {
@@ -41,8 +44,7 @@ function About() {
       <section
         className="relative bg-cover bg-center"
         style={{
-          backgroundImage:
-            "url('/src/assets/img/banner-img-scaled.webp')",
+          backgroundImage: `url(${truck_bg})`,
         }}
       >
         <div className="absolute inset-0 bg-black/60"></div>
@@ -76,7 +78,7 @@ function About() {
         <div className="relative flex justify-center lg:justify-end">
           <div className="w-full lg:w-[68%]">
             <img
-              src="/src/assets/img/truck-parts.jpg"
+              src = {truck_parts}
               alt="Diesel truck parts"
               className="w-full h-[420px] md:h-[520px] object-cover"
             />

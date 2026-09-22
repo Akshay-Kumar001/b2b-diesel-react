@@ -2,13 +2,14 @@ import FeatureSection from "../../components/FeatureSection";
 import NewsletterSection from "../../components/NewsletterSection";
 import services from "../../data/service";
 import ServiceCard from "./component/ServiceCard";
+import truck_bg from "../../assets/img/banner-img-scaled.webp";
 function Services() {
   return (
     <>
     <section
           className="relative bg-cover bg-center"
           style={{
-            backgroundImage: "url('/src/assets/img/banner-img-scaled.webp')",
+            backgroundImage: `url(${truck_bg})`,
           }}
         >
           <div className="absolute inset-0 bg-black/60"></div>

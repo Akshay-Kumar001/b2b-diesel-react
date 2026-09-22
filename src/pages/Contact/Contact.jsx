@@ -1,6 +1,7 @@
 import { Mail, MapPin, Clock, Phone } from "lucide-react";
 import { useState } from "react";
 
+import truck_bg from "../../assets/img/banner-img-scaled.webp";
 function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -9,6 +10,9 @@ function Contact() {
     subject: "",
     message: "",
   });
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -20,6 +24,18 @@ function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    });
+    setMessage("Thank you for subscribing!");
+    setMessageType("success");
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
   };
   return (
     <div>
@@ -27,7 +43,7 @@ function Contact() {
       <section
         className="relative bg-cover bg-center"
         style={{
-          backgroundImage: "url('/src/assets/img/banner-img-scaled.webp')",
+          backgroundImage: `url(${truck_bg})`,
         }}
       >
         <div className="absolute inset-0 bg-black/60"></div>
@@ -211,6 +227,13 @@ function Contact() {
               Send Inquiry
             </button>
           </form>
+          <p
+            className={`mt-4 ${
+              messageType === "success" ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {message}
+          </p>
         </div>
       </section>
     </div>
