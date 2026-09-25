@@ -15,7 +15,7 @@ function Services() {
           <div className="absolute inset-0 bg-black/60"></div>
 
           <div className="relative max-w-7xl mx-auto px-5 py-24 text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold">Services</h1>
+            <h1 className="text-4xl md:text-6xl font-bold">Services </h1>
 
             <p className="mt-4 text-sm md:text-base text-gray-200">
               Reliable Support for Heavy-Duty Applications.
