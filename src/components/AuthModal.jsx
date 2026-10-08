@@ -149,6 +149,7 @@ function AuthModal({ onClose }) {
         body: JSON.stringify({
           name: `${signupData.firstName} ${signupData.lastName}`,
           email: signupData.email,
+          phone: signupData.phone,
           password: signupData.password,
         }),
       });

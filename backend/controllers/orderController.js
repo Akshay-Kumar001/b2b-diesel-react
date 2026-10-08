@@ -39,7 +39,26 @@ const getMyOrders = async (req, res) => {
     });
   }
 };
+const getMyOrderById = async (req, res) => {
+  try {
+    const order = await Order.findOne({
+      _id: req.params.id,
+      customer: req.user.userId,
+    });
 
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch order",
+    });
+  }
+};
 const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
@@ -79,9 +98,102 @@ const updateOrderStatus = async (req, res) => {
     });
   }
 };
+const updateMyOrderShipping = async (req, res) => {
+  try {
+    const {
+      name,
+      phone,
+      address,
+      city,
+      state,
+      pincode,
+    } = req.body;
+
+    const order = await Order.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        customer: req.user.userId,
+      },
+      {
+        shippingAddress: {
+          name,
+          phone,
+          address,
+          city,
+          state,
+          pincode,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    res.json({
+      message: "Shipping address updated successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Update shipping error:", error);
+
+    res.status(500).json({
+      message: "Failed to update shipping address",
+    });
+  }
+};
+
+const cancelMyOrder = async (req, res) => {
+  try {
+    const order = await Order.findOne({
+      _id: req.params.id,
+      customer: req.user.userId,
+    });
+
+    // Check if order exists and belongs to logged-in customer
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    // Customer can cancel only pending or confirmed orders
+    if (order.status !== "pending" && order.status !== "confirmed") {
+      return res.status(400).json({
+        message: `Order cannot be cancelled when status is ${order.status}`,
+      });
+    }
+
+    // Change order status to cancelled
+    order.status = "cancelled";
+
+    await order.save();
+
+    res.json({
+      message: "Order cancelled successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Cancel order error:", error);
+
+    res.status(500).json({
+      message: "Failed to cancel order",
+    });
+  }
+};
 module.exports = {
   createOrder,
   getMyOrders,
+  getMyOrderById,
   getAllOrders,
   updateOrderStatus,
+  updateMyOrderShipping,
+    cancelMyOrder,
+
 };

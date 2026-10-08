@@ -11,7 +11,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-
+phone: {
+  type: String,
+},
   password: {
     type: String,
     required: true,
@@ -29,6 +31,14 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpire: {
     type: Date,
   },
+  shippingAddress: {
+  name: String,
+  phone: String,
+  address: String,
+  city: String,
+  state: String,
+  pincode: String
+}
 });
 
 const User = mongoose.model("User", userSchema);

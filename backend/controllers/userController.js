@@ -5,11 +5,12 @@ const crypto = require("crypto");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, phone, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       name,
       email,
+      phone,
       password: hashedPassword,
     });
 
@@ -62,6 +63,52 @@ const loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Login failed",
+    });
+  }
+};
+const getMyProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch profile",
+    });
+  }
+};
+const updateMyProfile = async (req, res) => {
+  try {
+    const { name, phone } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      { name, phone },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      message: "Profile updated successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to update profile",
     });
   }
 };
@@ -190,13 +237,80 @@ const deleteUser = async (req, res) => {
     });
   }
 };
+const getMyShippingAddress = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select(
+      "shippingAddress"
+    );
 
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json(user.shippingAddress || {});
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch shipping address",
+    });
+  }
+};
+const updateMyShippingAddress = async (req, res) => {
+  try {
+    const {
+      name,
+      phone,
+      address,
+      city,
+      state,
+      pincode,
+    } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      {
+        shippingAddress: {
+          name,
+          phone,
+          address,
+          city,
+          state,
+          pincode,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("shippingAddress");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      message: "Shipping address updated successfully",
+      shippingAddress: user.shippingAddress,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to update shipping address",
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
+  getMyProfile,
+  updateMyProfile,
   forgotPassword,
   resetPassword,
   getAllUsers,
   updateUserRole,
   deleteUser,
+  getMyShippingAddress,
+  updateMyShippingAddress,
 };

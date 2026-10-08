@@ -15,6 +15,9 @@ import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminUsers from "./pages/Admin/User/AdminUsers";
 import AdminOrders from "./pages/Admin/Orders/AdminOrders";
 import AdminRoute from "./pages/Admin/AdminRoute";
+import Account from "./pages/Account/Account";
+import MyOrders from "./pages/Account/MyOrders";
+import OrderDetails from "./pages/Account/OrderDetails";
 function App() {
   return (
     <div className="main-app">
@@ -28,6 +31,9 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/account/orders" element={<MyOrders />} />
+        <Route path="/account/orders/:id" element={<OrderDetails />} />
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import CartContext from "../../context/CartContext";
 import { Link } from "react-router-dom";
 import API_URL from "../../config/api";
@@ -23,7 +23,54 @@ function Checkout() {
     state: "",
     postalCode: "",
   });
+  useEffect(() => {
+    const fetchShippingAddress = async () => {
+      try {
+        const token = localStorage.getItem("token");
 
+        if (!token) return;
+
+        const response = await fetch(
+          "http://localhost:5000/api/users/me/shipping",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await response.json();
+        console.log("Shipping response:", response.status);
+        console.log("Shipping data:", data);
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to fetch shipping address");
+        }
+
+        if (!data || !data.name) return;
+
+        const nameParts = data.name.trim().split(" ");
+
+        const firstName = nameParts[0] || "";
+        const lastName = nameParts.slice(1).join(" ");
+
+        setFormData((prev) => ({
+          ...prev,
+          firstName,
+          lastName,
+          email: user?.email || "",
+          phone: data.phone || "",
+          address: data.address || "",
+          city: data.city || "",
+          state: data.state || "",
+          postalCode: data.pincode || "",
+        }));
+      } catch (error) {
+        console.error("Shipping address error:", error);
+      }
+    };
+
+    fetchShippingAddress();
+  }, []);
   const [errors, setErrors] = useState({});
   const [orderPlaced, setOrderPlaced] = useState(false);
 
@@ -73,10 +120,10 @@ function Checkout() {
       setErrors(newErrors);
       return;
     }
-if (!user) {
-  setIsAuthOpen(true);
-  return;
-}
+    if (!user) {
+      setIsAuthOpen(true);
+      return;
+    }
     setErrors({});
 
     try {
@@ -112,6 +159,30 @@ if (!user) {
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to place order");
+      }
+
+      const shippingResponse = await fetch("http://localhost:5000/api/users/me/shipping", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.postalCode,
+        }),
+      });
+
+      const shippingData = await shippingResponse.json();
+
+      if (!shippingResponse.ok) {
+        throw new Error(
+          shippingData.message || "Failed to save shipping address",
+        );
       }
 
       setCart([]);
