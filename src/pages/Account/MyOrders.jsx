@@ -13,7 +13,7 @@ function MyOrders() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/api/orders/my-orders",
+          `${API_URL}/api/orders/my-orders`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

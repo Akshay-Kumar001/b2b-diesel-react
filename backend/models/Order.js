@@ -59,12 +59,38 @@ const orderSchema = new mongoose.Schema(
       ],
       default: "pending",
     },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid", "failed"],
+      default: "pending",
+    },
+
+    razorpayOrderId: {
+      type: String,
+      default: null,
+    },
+
+    razorpayPaymentId: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,
+  },
+);
+
+orderSchema.index(
+  { razorpayOrderId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      razorpayOrderId: { $type: "string" },
+    },
   }
 );
 
 const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;
+

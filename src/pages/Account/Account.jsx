@@ -32,7 +32,7 @@ function Account() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/api/users/me",
+          `${API_URL}/api/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ function Account() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/api/users/me/shipping",
+          `${API_URL}/api/users/me/shipping`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -103,7 +103,7 @@ function Account() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/users/me",
+        `${API_URL}/api/users/me`,
         {
           method: "PATCH",
           headers: {
@@ -149,7 +149,7 @@ function Account() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/users/me/shipping",
+        `${API_URL}/api/users/me/shipping`,
         {
           method: "PATCH",
           headers: {

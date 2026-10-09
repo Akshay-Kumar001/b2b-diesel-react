@@ -34,7 +34,7 @@ function OrderDetails() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          `http://localhost:5000/api/orders/${id}`,
+          `${API_URL}/api/orders/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ function OrderDetails() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/orders/${id}/shipping`,
+        `${API_URL}/api/orders/${id}/shipping`,
         {
           method: "PATCH",
           headers: {
@@ -136,7 +136,7 @@ function OrderDetails() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/orders/${id}/cancel`,
+        `${API_URL}/api/orders/${id}/cancel`,
         {
           method: "PATCH",
           headers: {

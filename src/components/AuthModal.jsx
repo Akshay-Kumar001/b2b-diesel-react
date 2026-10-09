@@ -82,7 +82,6 @@ function AuthModal({ onClose }) {
 
       login(data.user, data.token);
 
-   
       setLoginErrors({});
       onClose();
     } catch (error) {
@@ -163,6 +162,14 @@ function AuthModal({ onClose }) {
         return;
       }
 
+      if (!data.token || !data.user) {
+        setSignupErrors({
+          email: "Account created, but automatic login failed. Please sign in.",
+        });
+        return;
+      }
+
+      login(data.user, data.token);
       onClose();
     } catch (error) {
       console.error("Signup error:", error);

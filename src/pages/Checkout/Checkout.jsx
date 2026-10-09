@@ -4,6 +4,25 @@ import { Link } from "react-router-dom";
 import API_URL from "../../config/api";
 import AuthContext from "../../context/AuthContext";
 import AuthModal from "../../components/AuthModal";
+
+// Razorpay payment integration
+const loadRazorpay = () =>
+  new Promise((resolve) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+
+    document.body.appendChild(script);
+  });
+
+// Checkout component
 function Checkout() {
   const { cart, setCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
@@ -31,7 +50,7 @@ function Checkout() {
         if (!token) return;
 
         const response = await fetch(
-          "http://localhost:5000/api/users/me/shipping",
+          `${API_URL}/api/users/me/shipping`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -75,6 +94,8 @@ function Checkout() {
   const [orderPlaced, setOrderPlaced] = useState(false);
 
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentMessage, setPaymentMessage] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -87,8 +108,9 @@ function Checkout() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newErrors = {};
+    if (isProcessing) return;
 
+    const newErrors = {};
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^[6-9]\d{9}$/;
 
@@ -120,77 +142,175 @@ function Checkout() {
       setErrors(newErrors);
       return;
     }
+
     if (!user) {
       setIsAuthOpen(true);
       return;
     }
+
     setErrors({});
+    setPaymentMessage("");
+    setIsProcessing(true);
+
+    const shippingAddress = {
+      name: `${formData.firstName} ${formData.lastName}`.trim(),
+      phone: formData.phone,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      pincode: formData.postalCode,
+    };
 
     try {
-      const orderItems = cart.map((item) => ({
-        product: item._id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-      }));
+      const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_URL}/api/orders`, {
+      const addressResponse = await fetch(`${API_URL}/api/users/me/shipping`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(shippingAddress),
+      });
+
+      if (!addressResponse.ok) {
+        const addressResult = await addressResponse.json();
+        throw new Error(
+          addressResult.message || "Could not save shipping address",
+        );
+      }
+    } catch (error) {
+      console.error("Shipping address save error:", error);
+      setPaymentMessage(
+        "Could not save your shipping address. Please try again.",
+      );
+      setIsProcessing(false);
+      return;
+    }
+
+    const orderItems = cart.map((item) => ({
+      product: item._id,
+      quantity: item.quantity,
+    }));
+
+    try {
+      // 1. Create a Razorpay order. This must not save a MongoDB Order.
+      const response = await fetch("${API_URL}/api/orders", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-
         body: JSON.stringify({
           items: orderItems,
-          shippingAddress: {
-            name: `${formData.firstName} ${formData.lastName}`,
-            phone: formData.phone,
-            address: formData.address,
-            city: formData.city,
-            state: formData.state,
-            pincode: formData.postalCode,
-          },
+          shippingAddress,
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Failed to place order");
+        throw new Error(data.message || "Unable to start payment");
       }
 
-      const shippingResponse = await fetch("http://localhost:5000/api/users/me/shipping", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      // 2. Load Razorpay checkout.
+      const loaded = await loadRazorpay();
+
+      if (!loaded) {
+        throw new Error("Unable to load Razorpay. Please try again.");
+      }
+
+      // 3. Open the payment popup.
+      const options = {
+        key: data.keyId,
+        amount: data.razorpayOrder.amount,
+        currency: data.razorpayOrder.currency,
+        name: "B2B Diesel",
+        description: "Order payment",
+        order_id: data.razorpayOrder.id,
+
+        prefill: {
+          name: shippingAddress.name,
+          email: formData.email,
+          contact: formData.phone,
         },
-        body: JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName}`,
-          phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-          state: formData.state,
-          pincode: formData.postalCode,
-        }),
+
+        handler: async function (response) {
+          try {
+            console.log("Razorpay payment received:", {
+              orderId: response.razorpay_order_id,
+              paymentId: response.razorpay_payment_id,
+              signatureReceived: Boolean(response.razorpay_signature),
+            });
+
+            const verificationResponse = await fetch(
+              "${API_URL}/api/orders/verify-payment",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              },
+            );
+
+            const result = await verificationResponse.json();
+
+            console.log("Verification status:", verificationResponse.status);
+            console.log("Verification result:", result);
+
+            if (!verificationResponse.ok) {
+              setPaymentMessage(
+                result.message || "Payment verification failed.",
+              );
+              setIsProcessing(false);
+              return;
+            }
+
+            setCart([]);
+            setPaymentMessage("");
+            setOrderPlaced(true);
+            setIsProcessing(false);
+          } catch (error) {
+            console.error("Payment verification error:", error);
+            setPaymentMessage(
+              "Payment may have succeeded, but order confirmation failed. Please contact support.",
+            );
+            setIsProcessing(false);
+          }
+        },
+
+        modal: {
+          ondismiss: () => {
+            setPaymentMessage("Payment cancelled. No order was placed.");
+            setIsProcessing(false);
+          },
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+
+      razorpay.on("payment.failed", (event) => {
+        setPaymentMessage(
+          event.error?.description || "Payment failed. Please try again.",
+        );
+        setIsProcessing(false);
       });
 
-      const shippingData = await shippingResponse.json();
-
-      if (!shippingResponse.ok) {
-        throw new Error(
-          shippingData.message || "Failed to save shipping address",
-        );
-      }
-
-      setCart([]);
-      setOrderPlaced(true);
+      razorpay.open();
     } catch (error) {
-      console.error("Order error:", error);
+      console.error("Checkout error:", error);
+      setPaymentMessage(error.message);
+      setIsProcessing(false);
     }
   };
+
+  // Render
   if (orderPlaced) {
     return (
       <div className="max-w-7xl mx-auto px-5 py-16 text-center">
@@ -423,12 +543,19 @@ function Checkout() {
                   </span>
                 </div>
               </div>
-              <div className="mt-8 flex justify-end">
+              <div className="mt-8 flex-col  justify-end">
+                {paymentMessage && (
+                  <p className="text-red-600 text-sm mb-2" role="alert">
+                    {paymentMessage}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg transition font-medium"
+                  disabled={isProcessing}
+                  className="bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white px-8 py-3 rounded-lg transition font-medium"
                 >
-                  Place Order
+                  {isProcessing ? "Processing..." : "Pay Now"}
                 </button>
               </div>
             </div>

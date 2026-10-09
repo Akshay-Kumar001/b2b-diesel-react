@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   createOrder,
+  verifyPayment,
   getMyOrders,
   getMyOrderById,
   getAllOrders,
@@ -16,6 +17,7 @@ const protect = require("../middleware/authMiddleware");
 const admin = require("../middleware/adminMiddleware");
 
 router.post("/", protect, createOrder);
+router.post("/verify-payment", protect, verifyPayment);
 router.get("/my-orders", protect, getMyOrders);
 router.get("/:id", protect, getMyOrderById);
 router.patch("/:id/shipping", protect, updateMyOrderShipping);
